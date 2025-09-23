@@ -108,21 +108,39 @@ const gameController = (function(){
         }
     }
 
+    const checkTie = function(){
+        let flag = true;
+        for (let i=0; i<3; i++){
+            for (let j=0; j<3; j++){
+                if (board.getBoard()[i][j].getValue() === 0){
+                    flag = false;
+                }
+            }
+        }
+        return flag;
+    }
+
 
     const playRound= (row, column) => {
         const sucessPut = board.putToken(row, column, getActivePlayer().token)
         if (sucessPut === true){
             const winnerbool = checkWin(row, column, getActivePlayer().token);
-            board.printGameBoard();
-            if (winnerbool == true){
+            const isTie = checkTie();
+            if (winnerbool === true){
                 console.log(`Congratulations ${activePlayer.name} win the game!`);
                 newGame();
                 board.printGameBoard();
                 return;
+            } else if (isTie === true){
+                console.log("You are TIEING each other")
+                newGame();
+                board.printGameBoard();
+                return;
+            }
+            else {
+                board.printGameBoard();
             }
             switchPlayer();
-        } else {
-
         }
     }
 
