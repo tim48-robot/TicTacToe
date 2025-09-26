@@ -130,12 +130,12 @@ const gameController = (function(){
                 console.log(`Congratulations ${activePlayer.name} win the game!`);
                 newGame();
                 board.printGameBoard();
-                return;
+                return "win";
             } else if (isTie === true){
                 console.log("You are TIEING each other")
                 newGame();
                 board.printGameBoard();
-                return;
+                return "tie";
             }
             else {
                 board.printGameBoard();
@@ -160,3 +160,19 @@ const gameController = (function(){
     
 
 })()
+
+
+const allButton = document.querySelectorAll("button");
+const result = document.querySelector("#result");
+
+allButton.forEach(button => button.addEventListener("click", (e) => {
+    button.textContent = gameController.getActivePlayer().token;
+    const cool = gameController.playRound(parseInt(button.className[0]), parseInt(button.className[1]));
+    result.textContent = `It's ${gameController.getActivePlayer().name} Turn`
+    if (cool === "tie"){
+
+    }  
+    else if (cool === "win"){
+        result.textContent = `Congratulations! ${gameController.getActivePlayer().name} Won`
+    }
+}))

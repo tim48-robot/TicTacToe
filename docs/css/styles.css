@@ -1,0 +1,35 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+div.flexcontainer{
+    display: flex;
+    height: 100vh;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+div#result{
+    margin-top: 0.5rem;
+}
+
+div#tictactoe, div.flex{
+    display:flex;
+    gap: 5px;
+}
+
+div#tictactoe{
+    flex-direction: column;
+}
+
+
+button{
+    border-radius: 10px;
+    background: rgb(129, 91, 91);
+    font-size: 3.5rem;
+    box-sizing: border-box;
+    height: 100px;
+    width: 100px;
+}
