@@ -57,6 +57,7 @@ const gameController = (function(){
     ];
 
     const board = gameBoard();
+    const winNumber = [];
     board.printGameBoard();
 
     let activePlayer = playerList[0];
@@ -76,6 +77,7 @@ const gameController = (function(){
             [0,1], [1,0], [-1,1], [1,1]
         ]
 
+
        // horizontal checking
        for (let i=0; i<directions.length; i++){
             const [rowstep, columnstep] = directions[i];
@@ -88,11 +90,15 @@ const gameController = (function(){
                     break;
                 }
                 count++;
+                console.log(row+(j*rowstep) + "" + column+(j*columnstep));
+                winNumber.push([(row+(j*rowstep)) + "" + (column+(j*columnstep))]);
                 if (count== 3){
                     return true;
                 }
             }
-
+            winNumber.length = 0;
+            winNumber.push([row + "" + column]);
+            console.log(row + "" + column);
             for (let j=-1; j>=-2; j--){
                 if(row+(j*rowstep) >= 3 || column+(j*columnstep) >= 3 || row+(j*rowstep) <= -1 || column+(j*columnstep) <= -1){
                     continue;
@@ -101,6 +107,7 @@ const gameController = (function(){
                     break;
                 }
                 count++;
+                winNumber.push([(row+(j*rowstep)) + "" + (column+(j*columnstep))]);
                 if (count === 3){
                     return true;
                 }
@@ -120,6 +127,9 @@ const gameController = (function(){
         return flag;
     }
 
+    const getWinNumber = function(){
+        return winNumber;
+    }
 
     const playRound= (row, column) => {
         const sucessPut = board.putToken(row, column, getActivePlayer().token)
@@ -155,7 +165,7 @@ const gameController = (function(){
     }
 
     return {
-        playRound, getActivePlayer
+        playRound, getActivePlayer, getWinNumber
     }
     
 
@@ -165,6 +175,13 @@ const gameController = (function(){
 const allButton = document.querySelectorAll("button");
 const result = document.querySelector("#result");
 
+const colorButton = (array) =>{
+    for (let i=0; i<array.length; i++){
+        const button = document.querySelector(`[class="${array[i]}"]`);
+        button.style.backgroundColor = "rgba(121, 50, 173, 1)";
+    }
+}
+
 allButton.forEach(button => button.addEventListener("click", (e) => {
     button.textContent = gameController.getActivePlayer().token;
     const cool = gameController.playRound(parseInt(button.className[0]), parseInt(button.className[1]));
@@ -173,6 +190,10 @@ allButton.forEach(button => button.addEventListener("click", (e) => {
 
     }  
     else if (cool === "win"){
+        console.log(gameController.getWinNumber());
+        colorButton(gameController.getWinNumber());    
         result.textContent = `Congratulations! ${gameController.getActivePlayer().name} Won`
+
     }
 }))
+
