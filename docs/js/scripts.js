@@ -171,10 +171,6 @@ const gameController = (function(){
 
 })()
 
-
-const allButton = document.querySelectorAll("button");
-const result = document.querySelector("#result");
-
 const colorButton = (array) =>{
     for (let i=0; i<array.length; i++){
         const button = document.querySelector(`[class="${array[i]}"]`);
@@ -182,18 +178,38 @@ const colorButton = (array) =>{
     }
 }
 
+const disableAttribute = (buttons, bool) => {
+    if (bool === false){
+        buttons.forEach(button => {
+            button.disabled = false;
+        })
+    }
+    else {
+        buttons.forEach(button => {
+            button.disabled = true;
+        })
+    }
+}
+
+
+const allButton = document.querySelectorAll("button");
+const result = document.querySelector("#result");
+
 allButton.forEach(button => button.addEventListener("click", (e) => {
-    button.textContent = gameController.getActivePlayer().token;
+    if (button.textContent === ""){
+        button.textContent = gameController.getActivePlayer().token;        
+    }
     const cool = gameController.playRound(parseInt(button.className[0]), parseInt(button.className[1]));
     result.textContent = `It's ${gameController.getActivePlayer().name} Turn`
     if (cool === "tie"){
-
+        result.textContent = `It's a tie!`;
+        disableAttribute(allButton, true);
     }  
     else if (cool === "win"){
         console.log(gameController.getWinNumber());
         colorButton(gameController.getWinNumber());    
         result.textContent = `Congratulations! ${gameController.getActivePlayer().name} Won`
-
+        disableAttribute(allButton, true);
     }
 }))
 
