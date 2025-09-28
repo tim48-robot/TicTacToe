@@ -82,7 +82,10 @@ const gameController = (function(){
        for (let i=0; i<directions.length; i++){
             const [rowstep, columnstep] = directions[i];
             count = 1;
-            for (let j=1; j<=2; j++){
+            winNumber.length = 0;
+            winNumber.push([row + "" + column])
+            for (let j=-2; j<=2; j++){
+                if (j===0) continue;
                 if(row+(j*rowstep) >= 3 || column+(j*columnstep) >= 3 || row+(j*rowstep) <= -1 || column+(j*columnstep) <= -1){
                     continue;
                 }
@@ -93,22 +96,6 @@ const gameController = (function(){
                 console.log(row+(j*rowstep) + "" + column+(j*columnstep));
                 winNumber.push([(row+(j*rowstep)) + "" + (column+(j*columnstep))]);
                 if (count== 3){
-                    return true;
-                }
-            }
-            winNumber.length = 0;
-            winNumber.push([row + "" + column]);
-            console.log(row + "" + column);
-            for (let j=-1; j>=-2; j--){
-                if(row+(j*rowstep) >= 3 || column+(j*columnstep) >= 3 || row+(j*rowstep) <= -1 || column+(j*columnstep) <= -1){
-                    continue;
-                }
-                if(board.getBoard()[row+(j*rowstep)][column+(j*columnstep)].getValue() != token){
-                    break;
-                }
-                count++;
-                winNumber.push([(row+(j*rowstep)) + "" + (column+(j*columnstep))]);
-                if (count === 3){
                     return true;
                 }
             }
@@ -161,7 +148,7 @@ const gameController = (function(){
     }
 
     return {
-        playRound, getActivePlayer, getWinNumber
+        playRound, getActivePlayer, getWinNumber, newGame
     }
     
 
@@ -177,11 +164,20 @@ const colorButton = (array) =>{
 const disableAttribute = (buttons, bool) => {
     if (bool === false){
         buttons.forEach(button => {
+            if (button.className === "new-game"){
+                return;
+            }
+            result.textContent = "It's Player 1 Turn!"
+            button.style.backgroundColor = "rgb(225, 224, 224)";
+            button.textContent = "";
             button.disabled = false;
         })
     }
     else {
         buttons.forEach(button => {
+            if (button.className === "new-game"){
+                return;
+            }
             button.disabled = true;
         })
     }
@@ -190,8 +186,10 @@ const disableAttribute = (buttons, bool) => {
 
 const allButton = document.querySelectorAll("button");
 const result = document.querySelector("#result");
+const newGame = document.querySelector(".new-game");
 
 allButton.forEach(button => button.addEventListener("click", (e) => {
+    if (button.className === "new-game") return;
     if (button.textContent === ""){
         button.textContent = gameController.getActivePlayer().token;        
     }
@@ -209,3 +207,7 @@ allButton.forEach(button => button.addEventListener("click", (e) => {
     }
 }))
 
+newGame.addEventListener("click", () => {
+    disableAttribute(allButton, false);
+    gameController.newGame();
+})
