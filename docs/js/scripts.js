@@ -138,13 +138,9 @@ const gameController = (function(){
             const isTie = checkTie();
             if (winnerbool === true){
                 console.log(`Congratulations ${activePlayer.name} win the game!`);
-                newGame();
-                board.printGameBoard();
                 return "win";
             } else if (isTie === true){
                 console.log("You are TIEING each other")
-                newGame();
-                board.printGameBoard();
                 return "tie";
             }
             else {

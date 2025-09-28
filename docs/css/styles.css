@@ -11,8 +11,20 @@ div.flexcontainer{
     align-items: center;
 }
 
+@keyframes gradientShift{
+    0%, 100% { background-position: 0% 50%; }    /* Start position */
+    50% { background-position: 100% 50%; }       /* End position */
+}
+
 div#result{
+    font-weight: bold;
     margin-top: 0.5rem;
+    background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    background-size: 400% 400%;
+    animation: gradientShift 3s ease-in-out infinite;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 div#tictactoe, div.flex{
@@ -24,12 +36,29 @@ div#tictactoe{
     flex-direction: column;
 }
 
-
-button{
+button:not(.new-game){
     border-radius: 10px;
     background:rgb(225, 224, 224);
-    font-size: 3.5rem;
+    font-size: 3rem;
     box-sizing: border-box;
-    height: 100px;
-    width: 100px;
+    height: 90px;
+    width: 90px;
+}
+
+button.new-game{
+    padding: 6px 12px;
+    border: 2px solid #4CAF50;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.new-game:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
