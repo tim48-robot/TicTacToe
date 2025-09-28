@@ -26,7 +26,6 @@ const gameBoard = () => {
 
     const printGameBoard = () => {
         boardWithValue = board.map(row => row.map(column => column.getValue()));
-        console.log(boardWithValue);
     }
 
     const putToken = (row, column, token) => {
@@ -61,11 +60,9 @@ const gameController = (function(){
     board.printGameBoard();
 
     let activePlayer = playerList[0];
-    console.log(`It's ${activePlayer.name} turn`);
 
     const switchPlayer= () => {
         activePlayer = (activePlayer === playerList[0]) ? playerList[1] : playerList[0];
-        console.log(`It's ${activePlayer.name} turn`);
     }
 
     const getActivePlayer = function(){
@@ -93,7 +90,6 @@ const gameController = (function(){
                     break;
                 }
                 count++;
-                console.log(row+(j*rowstep) + "" + column+(j*columnstep));
                 winNumber.push([(row+(j*rowstep)) + "" + (column+(j*columnstep))]);
                 if (count== 3){
                     return true;
@@ -124,10 +120,8 @@ const gameController = (function(){
             const winnerbool = checkWin(row, column, getActivePlayer().token);
             const isTie = checkTie();
             if (winnerbool === true){
-                console.log(`Congratulations ${activePlayer.name} win the game!`);
                 return "win";
             } else if (isTie === true){
-                console.log("You are TIEING each other")
                 return "tie";
             }
             else {
@@ -200,7 +194,6 @@ allButton.forEach(button => button.addEventListener("click", (e) => {
         disableAttribute(allButton, true);
     }  
     else if (cool === "win"){
-        console.log(gameController.getWinNumber());
         colorButton(gameController.getWinNumber());    
         result.textContent = `Congratulations! ${gameController.getActivePlayer().name} Won`
         disableAttribute(allButton, true);
